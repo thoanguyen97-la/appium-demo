@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class LongPressTest extends BaseTests{
+public class LongPressDemoTest extends BaseTests{
     @Test
     public void LongPressPeopleNameTest() throws InterruptedException {
 

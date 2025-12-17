@@ -69,6 +69,38 @@ public class GeneralStoreTest extends BaseTests{
         Assert.assertEquals(titleCart,"Cart");
         String productNameInCart = wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.xpath("//android.widget.TextView[@resource-id='com.androidsample.generalstore:id/productName']"))).getText();
         Assert.assertEquals(productNameInCart,"Jordan 6 Rings");
+    }
+    @Test
+    public void TotalAmountTest(){
+            wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("com.androidsample.generalstore:id/nameField")))
+                    .sendKeys("thoa nguyen");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("com.androidsample.generalstore:id/radioFemale")))
+                    .click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("android:id/text1")))
+                    .click();
+            driver.findElement(AppiumBy
+                            .androidUIAutomator("new UiScrollable(UiSelector()).scrollIntoView(text(\"Aruba\"))"))
+                    .click();
+            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.id("com.androidsample.generalstore:id/btnLetsShop")))
+                    .click();
+            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.xpath("(//android.widget.TextView[@text='ADD TO CART'])[1]")))
+                    .click();
+            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.xpath("(//android.widget.TextView[@text='ADD TO CART'])[1]")))
+                    .click();
+            wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.id("com.androidsample.generalstore:id/appbar_btn_cart")))
+                    .click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.id("com.androidsample.generalstore:id/toolbar_title")));
+
+        int totalProducts = driver.findElements(AppiumBy.xpath("//android.widget.TextView[@resource-id=\"com.androidsample.generalstore:id/productPrice\"]")).size();
+            double Sum =0;
+            for (int i=0; i<totalProducts; i++){
+                String price = driver.findElements(AppiumBy.xpath("//android.widget.TextView[@resource-id=\"com.androidsample.generalstore:id/productPrice\"]")).get(i).getText();
+                price = price.substring(1);
+                Sum += Double.parseDouble(price);
+            }
+            String purchaseAmount = driver.findElement(AppiumBy.id("com.androidsample.generalstore:id/totalAmountLbl")).getText();
+            Double totalPurchaseAmount = Double.parseDouble(purchaseAmount.substring(2));
+            Assert.assertEquals(totalPurchaseAmount,Sum);
 
 
 

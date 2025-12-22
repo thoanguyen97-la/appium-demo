@@ -1,39 +1,33 @@
 package com.appium.demo;
+
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-public class BaseTests {
-    AndroidDriver driver;
+public class IOSBaseTests {
+    IOSDriver driver;
     //AppiumDriverLocalService service;
     WebDriverWait wait;
     @BeforeMethod
     public void TestConfigure() throws MalformedURLException {
-        //code start server
-//        service = new AppiumServiceBuilder()
-//                .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-//                .withIPAddress("127.0.0.1")
-//                .usingPort(4723)
-//                .build();
-//        service.start();
-        //AndroidDriver/iOSDriver
-        //Appium > Appium server > Mobile
-        UiAutomator2Options options = new UiAutomator2Options();
-        options.setPlatformName("Android");
-        options.setDeviceName("emulator-5554"); //emulator
-//        options.setApp("/Users/thoanguyen/AppiumDemo/src/test/resources/ApiDemos-debug.apk");
-        options.setApp("/Users/thoanguyen/AppiumDemo/src/test/resources/General-Store.apk");
-        options.setChromedriverExecutable("/Users/thoanguyen/chromedriver-mac-arm64/chromedriver");
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+
+        //Appium > Webdriver Agent > iOS App
+        XCUITestOptions options = new XCUITestOptions();
+        options.setDeviceName("iPhone 17 Pro"); //simulator
+        options.setPlatformVersion("26.2");
+        options.setApp("/Users/thoanguyen/AppiumDemo/src/test/resources/UIKitCatalog.app");
+        options.setWdaLaunchTimeout(Duration.ofSeconds(20));
+        driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     public void LongPressAction(WebElement ele) throws InterruptedException {
